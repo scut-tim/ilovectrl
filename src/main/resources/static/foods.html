@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+    <h1>登录成功</h1>
+    <input type="button" value="getFoods" id="sender">
+    <a href="addfood.html">增加</a>
+    <div id="messageDiv"></div>
+
+    <script>
+        function start () {
+
+            var url = "food"
+
+
+            $.get(
+
+                url,
+                function (data) {
+                    var foods = data;
+                    for(i in foods){
+                        var old = $("#messageDiv").html();
+                        var food = foods[i]
+                        $("#messageDiv").html(old+"<br>"+food.id+"--------"+food.name+"-----------"+food.date
+                        +"---"+"<form action='/food' method='post'>" +
+                                "<input type='hidden' name='_method' value='PUT'>"+
+                            "<input id='identifier' type='text' name='id'>" +
+                            "<input type='text' name ='name'>" +
+                             "<input id='editor' type='submit' value='编辑'>"+
+                            "</form>"+"<form method='post' id='dd'>" +
+                            "<input type='hidden' name='_method' value='DELETE'>" +
+                            "<input type='submit' value='删除'>" +
+                            "</form>")
+                        $("#identifier").attr("value",food.id)
+                        $("#dd").attr("action","/food/"+food.id)
+
+                    }
+
+                }
+
+            )
+
+        }
+
+        start()
+    </script>
+
+    <script>
+        $("#editor").click(function () {
+
+
+            var url = "food"
+
+
+            $.put(
+                url,
+                function (data) {
+
+
+                    window.alert("成功编辑")
+                }
+
+
+            )
+
+
+        })
+
+
+    </script>
+
+
+
+
+    <script>
+        $('#sender').click(function () {
+
+            var url = "food"
+
+
+            $.get(
+
+                url,
+                function (data) {
+                    var foods = data;
+                    for(i in foods){
+                        var old = $("#messageDiv").html();
+                        var food = foods[i]
+                        $("#messageDiv").html(old+"<br>"+food.id+"--------"+food.name+"-----------"+food.date)
+                    }
+
+                }
+
+            )
+
+        })
+    </script>
+
+
+</body>
+</html>
